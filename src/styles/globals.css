@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: oklch(42% 0.18 250);
+    --color-primary-light: oklch(55% 0.18 250);
+    --color-primary-foreground: oklch(99% 0 0);
+    --color-accent: oklch(72% 0.20 195);
+    --color-accent-foreground: oklch(15% 0.05 250);
+    --color-surface: oklch(11% 0.02 250);
+    --color-surface-raised: oklch(16% 0.02 250);
+    --color-surface-overlay: oklch(20% 0.025 250);
+    --color-border: oklch(28% 0.03 250);
+    --color-border-subtle: oklch(22% 0.02 250);
+    --color-neutral-50: oklch(98% 0 0);
+    --color-neutral-100: oklch(94% 0 0);
+    --color-neutral-200: oklch(85% 0 0);
+    --color-neutral-300: oklch(72% 0 0);
+    --color-neutral-400: oklch(58% 0 0);
+    --color-neutral-500: oklch(46% 0 0);
+    --color-neutral-600: oklch(36% 0 0);
+    --color-neutral-700: oklch(28% 0.01 250);
+    --color-neutral-800: oklch(20% 0.015 250);
+    --color-neutral-900: oklch(14% 0.02 250);
+    --color-success: oklch(62% 0.20 155);
+    --color-success-dim: oklch(25% 0.08 155);
+    --color-warning: oklch(72% 0.18 75);
+    --color-warning-dim: oklch(25% 0.07 75);
+    --color-destructive: oklch(58% 0.22 27);
+    --color-destructive-dim: oklch(22% 0.08 27);
+    --radius: 0.5rem;
+    --radius-lg: 0.875rem;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+}
+
+@layer base {
+  *, *::before, *::after { border-color: var(--color-border); box-sizing: border-box; }
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-neutral-100);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+  #root { width: 100%; min-height: 100vh; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-[var(--color-primary)] text-[var(--color-primary-foreground)]
+           rounded-[var(--radius)] px-6 py-3 font-semibold
+           hover:bg-[var(--color-primary-light)] transition-all duration-200
+           cursor-pointer border-0 outline-none;
+    font-family: var(--font-display);
+    letter-spacing: 0.03em;
+  }
+  .card {
+    @apply bg-[var(--color-surface-raised)] border border-[var(--color-border)]
+           rounded-[var(--radius-lg)] p-6;
+  }
+  .glass {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+  }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.fade-up  { animation: fade-up 0.6s ease forwards; }
+.fade-up-2 { animation: fade-up 0.6s ease 0.15s both; }
+.fade-up-3 { animation: fade-up 0.6s ease 0.30s both; }
+.fade-up-4 { animation: fade-up 0.6s ease 0.45s both; }
+
+.shimmer-text {
+  background: linear-gradient(90deg, var(--color-neutral-100) 0%, var(--color-accent) 50%, var(--color-neutral-100) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Ant Design dark overrides ─────────────────────────── */
+.ant-input,
+.ant-input-affix-wrapper {
+  background: var(--color-surface-overlay) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-neutral-100) !important;
+  font-family: var(--font-body) !important;
+}
+.ant-input::placeholder { color: var(--color-neutral-500) !important; }
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper:focus-within {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 2px oklch(72% 0.20 195 / 0.2) !important;
+}
+.ant-input-suffix { display: flex; align-items: center; }
+
+.ant-table { background: transparent !important; font-family: var(--font-body) !important; }
+.ant-table-thead > tr > th {
+  background: var(--color-surface-overlay) !important;
+  color: var(--color-neutral-400) !important;
+  border-bottom-color: var(--color-border) !important;
+  font-family: var(--font-display) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+.ant-table-tbody > tr > td {
+  background: transparent !important;
+  border-bottom-color: var(--color-border-subtle) !important;
+  color: var(--color-neutral-200) !important;
+}
+.ant-table-tbody > tr:hover > td { background: var(--color-surface-overlay) !important; }
+.ant-pagination-item a { color: var(--color-neutral-400) !important; }
+.ant-pagination-item-active { border-color: var(--color-primary) !important; }
+.ant-pagination-item-active a { color: var(--color-primary-light) !important; }
+.ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination-next .ant-pagination-item-link { color: var(--color-neutral-400) !important; background: transparent !important; border-color: var(--color-border) !important; }
+
+.ant-tag { font-family: var(--font-body) !important; }
+
+.ant-modal-content { background: var(--color-surface-raised) !important; border: 1px solid var(--color-border) !important; }
+.ant-modal-header { background: transparent !important; border-bottom: 1px solid var(--color-border) !important; padding: 16px 24px !important; }
+.ant-modal-title { color: var(--color-neutral-100) !important; font-family: var(--font-display) !important; }
+.ant-modal-body { padding: 0 24px 24px !important; }
+.ant-modal-footer { border-top: 1px solid var(--color-border) !important; background: transparent !important; }
+.ant-modal-close { color: var(--color-neutral-400) !important; }
+.ant-modal-close:hover { color: var(--color-neutral-100) !important; }
+
+.ant-form-item-label > label { color: var(--color-neutral-300) !important; font-family: var(--font-body) !important; font-size: 13px !important; }
+.ant-form-item { margin-bottom: 14px !important; }
+
+.ant-select-selector {
+  background: var(--color-surface-overlay) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-neutral-100) !important;
+}
+.ant-select-dropdown { background: var(--color-surface-raised) !important; border: 1px solid var(--color-border) !important; }
+.ant-select-item { color: var(--color-neutral-200) !important; }
+.ant-select-item-option-active,
+.ant-select-item-option-selected { background: var(--color-surface-overlay) !important; color: var(--color-neutral-100) !important; }
+.ant-select-arrow { color: var(--color-neutral-400) !important; }
+
+.ant-picker {
+  background: var(--color-surface-overlay) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-neutral-100) !important;
+  width: 100% !important;
+}
+.ant-picker-input > input { color: var(--color-neutral-100) !important; }
+.ant-picker-suffix { color: var(--color-neutral-400) !important; }
+.ant-picker-panel-container { background: var(--color-surface-raised) !important; border: 1px solid var(--color-border) !important; }
+.ant-picker-header { color: var(--color-neutral-200) !important; border-bottom-color: var(--color-border) !important; }
+.ant-picker-header button { color: var(--color-neutral-300) !important; }
+.ant-picker-cell-in-view { color: var(--color-neutral-200) !important; }
+.ant-picker-cell-selected .ant-picker-cell-inner { background: var(--color-primary) !important; color: white !important; }
+.ant-picker-cell-today .ant-picker-cell-inner::before { border-color: var(--color-accent) !important; }
+.ant-picker-cell:not(.ant-picker-cell-in-view) .ant-picker-cell-inner { color: var(--color-neutral-600) !important; }
+.ant-picker-footer { border-top-color: var(--color-border) !important; }
+
+.ant-popover-inner { background: var(--color-surface-raised) !important; border: 1px solid var(--color-border) !important; }
+.ant-popover-message-title { color: var(--color-neutral-100) !important; }
+.ant-popconfirm-description { color: var(--color-neutral-300) !important; }
+
+.ant-message-notice-content { background: var(--color-surface-raised) !important; border: 1px solid var(--color-border) !important; color: var(--color-neutral-100) !important; font-family: var(--font-body) !important; }
