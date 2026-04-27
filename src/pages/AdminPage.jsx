@@ -175,7 +175,7 @@ export default function AdminPage() {
               style={{ width: 280, borderRadius: 8 }}
             />
           </div>
-          <div style={{ padding: '0 0 8px' }}>
+          <div className='p-5'>
             <Table
               dataSource={filtered}
               columns={columns}
