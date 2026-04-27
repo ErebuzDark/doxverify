@@ -81,7 +81,7 @@ export default function AdminPage() {
       }
       refresh()
       setModalOpen(false)
-    } catch (_) {}
+    } catch (_) { }
   }
 
   const columns = [
@@ -128,10 +128,10 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen" style={{ background: 'var(--color-surface)', fontFamily: 'var(--font-body)' }}>
       {/* Nav */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-[var(--color-border-subtle)]">
+      <nav className="flex items-center justify-between px-8 py-5 border-b border-(--color-border-subtle)">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-sm text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-100)] transition-colors">
+            className="flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-100 transition-colors">
             <ArrowLeftOutlined />
           </button>
           <div className="flex items-center gap-3">
@@ -139,8 +139,8 @@ export default function AdminPage() {
               <span className="text-white font-bold text-xs" style={{ fontFamily: 'var(--font-display)' }}>DV</span>
             </div>
             <div>
-              <span className="font-bold text-[var(--color-neutral-100)] tracking-tight" style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem' }}>
-                DoxVerify
+              <span className="font-bold text-neutral-100 tracking-tight" style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem' }}>
+                DoxCheck
               </span>
               <span className="ml-3 text-xs px-2 py-0.5 rounded"
                 style={{ background: 'var(--color-surface-overlay)', color: 'var(--color-neutral-400)', fontFamily: 'var(--font-display)', letterSpacing: '0.08em' }}>
@@ -155,10 +155,10 @@ export default function AdminPage() {
         {/* Header */}
         <div className="flex items-start justify-between mb-8 fade-up">
           <div>
-            <h1 className="text-3xl font-extrabold text-[var(--color-neutral-100)]" style={{ fontFamily: 'var(--font-display)' }}>
+            <h1 className="text-3xl font-extrabold text-neutral-100" style={{ fontFamily: 'var(--font-display)' }}>
               Document Registry
             </h1>
-            <p className="text-sm text-[var(--color-neutral-500)] mt-1">
+            <p className="text-sm text-neutral-500 mt-1">
               {docs.length} total documents registered
             </p>
           </div>
@@ -175,19 +175,19 @@ export default function AdminPage() {
             { label: 'Expired', value: docs.filter(d => getStatus(d) === 'expired').length, color: 'var(--color-warning)' },
             { label: 'Revoked', value: docs.filter(d => getStatus(d) === 'revoked').length, color: 'var(--color-destructive)' },
           ].map(s => (
-            <div key={s.label} className="card border-[var(--color-border-subtle)]">
+            <div key={s.label} className="card border-(--color-border-subtle)">
               <p className="text-2xl font-extrabold" style={{ fontFamily: 'var(--font-display)', color: s.color }}>{s.value}</p>
-              <p className="text-xs text-[var(--color-neutral-500)] mt-1 uppercase tracking-widest" style={{ fontFamily: 'var(--font-display)' }}>{s.label}</p>
+              <p className="text-xs text-neutral-500 mt-1 uppercase tracking-widest" style={{ fontFamily: 'var(--font-display)' }}>{s.label}</p>
             </div>
           ))}
         </div>
 
         {/* Table */}
         <div className="fade-up-3 card p-0 overflow-hidden">
-          <div className="flex items-center justify-between p-5 border-b border-[var(--color-border-subtle)]">
+          <div className="flex items-center justify-between p-5 border-b border-(--color-border-subtle)">
             <div className="flex items-center gap-2">
               <FileProtectOutlined style={{ color: 'var(--color-accent)' }} />
-              <span className="font-bold text-sm text-[var(--color-neutral-200)] uppercase tracking-wide"
+              <span className="font-bold text-sm text-neutral-200 uppercase tracking-wide"
                 style={{ fontFamily: 'var(--font-display)' }}>All Documents</span>
             </div>
             <Input

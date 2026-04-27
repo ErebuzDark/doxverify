@@ -53,16 +53,16 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-[var(--color-primary)] text-[var(--color-primary-foreground)]
-           rounded-[var(--radius)] px-6 py-3 font-semibold
-           hover:bg-[var(--color-primary-light)] transition-all duration-200
+    @apply bg-(--color-primary) text-(--color-primary-foreground)
+           rounded-(--radius) px-6 py-3 font-semibold
+           hover:bg-(--color-primary-light) transition-all duration-200
            cursor-pointer border-0 outline-none;
     font-family: var(--font-display);
     letter-spacing: 0.03em;
   }
   .card {
-    @apply bg-[var(--color-surface-raised)] border border-[var(--color-border)]
-           rounded-[var(--radius-lg)] p-6;
+    @apply bg-(--color-surface-raised) border border-(--color-border)
+           rounded-lg p-6;
   }
   .glass {
     background: rgba(255,255,255,0.04);

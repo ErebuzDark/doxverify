@@ -74,17 +74,17 @@ export default function VerifyPage() {
   return (
     <div className="min-h-screen" style={{ background: 'var(--color-surface)', fontFamily: 'var(--font-body)' }}>
       {/* Nav */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-[var(--color-border-subtle)]">
+      <nav className="flex items-center justify-between px-8 py-5 border-b border-(--color-border-subtle)">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'var(--color-primary)' }}>
             <span className="text-white font-bold text-xs" style={{ fontFamily: 'var(--font-display)' }}>DV</span>
           </div>
-          <span className="font-bold text-[var(--color-neutral-100)] tracking-tight" style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem' }}>
-            DoxVerify
+          <span className="font-bold text-neutral-100 tracking-tight" style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem' }}>
+            DoxCheck
           </span>
         </div>
         <button onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-sm text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-100)] transition-colors">
+          className="flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-100 transition-colors">
           <ArrowLeftOutlined /> Back to Search
         </button>
       </nav>
@@ -92,11 +92,11 @@ export default function VerifyPage() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         {/* Code display */}
         <div className="mb-8 fade-up">
-          <p className="text-xs tracking-widest uppercase text-[var(--color-neutral-500)] mb-1" style={{ fontFamily: 'var(--font-display)' }}>
+          <p className="text-xs tracking-widest uppercase text-neutral-500 mb-1" style={{ fontFamily: 'var(--font-display)' }}>
             Authentication Code
           </p>
           <div className="flex items-center gap-4 flex-wrap">
-            <h1 className="text-3xl font-extrabold text-[var(--color-neutral-100)]"
+            <h1 className="text-3xl font-extrabold text-neutral-100"
               style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.04em' }}>
               {code}
             </h1>
@@ -111,13 +111,13 @@ export default function VerifyPage() {
               style={{ background: 'var(--color-surface-overlay)', border: '1px solid var(--color-border)' }}>
               <CloseCircleOutlined style={{ fontSize: 36, color: 'var(--color-destructive)' }} />
             </div>
-            <h2 className="text-2xl font-bold text-[var(--color-neutral-100)] mb-3" style={{ fontFamily: 'var(--font-display)' }}>
+            <h2 className="text-2xl font-bold text-neutral-100 mb-3" style={{ fontFamily: 'var(--font-display)' }}>
               Document Not Found
             </h2>
-            <p className="text-[var(--color-neutral-500)] max-w-md text-sm leading-relaxed">
-              The authentication code <code className="text-[var(--color-accent)] bg-[var(--color-surface-overlay)] px-2 py-0.5 rounded">{code}</code> does not match any registered document in our system.
+            <p className="text-neutral-500 max-w-md text-sm leading-relaxed">
+              The authentication code <code className="text-(--color-accent) bg-(--color-surface-overlay) px-2 py-0.5 rounded">{code}</code> does not match any registered document in our system.
             </p>
-            <p className="text-[var(--color-neutral-600)] text-xs mt-4">
+            <p className="text-neutral-600 text-xs mt-4">
               Verify the code is correct or contact the document issuer.
             </p>
             <button onClick={() => navigate('/')}
@@ -133,7 +133,7 @@ export default function VerifyPage() {
               <div className="card">
                 <div className="flex items-center gap-2 mb-5">
                   <FileTextOutlined style={{ color: 'var(--color-accent)' }} />
-                  <h2 className="font-bold text-sm text-[var(--color-neutral-200)] tracking-wide uppercase"
+                  <h2 className="font-bold text-sm text-neutral-200 tracking-wide uppercase"
                     style={{ fontFamily: 'var(--font-display)' }}>Document Information</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -153,7 +153,7 @@ export default function VerifyPage() {
               <div className="card">
                 <div className="flex items-center gap-2 mb-5">
                   <BankOutlined style={{ color: 'var(--color-accent)' }} />
-                  <h2 className="font-bold text-sm text-[var(--color-neutral-200)] tracking-wide uppercase"
+                  <h2 className="font-bold text-sm text-neutral-200 tracking-wide uppercase"
                     style={{ fontFamily: 'var(--font-display)' }}>Issuer & Recipient</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -168,7 +168,7 @@ export default function VerifyPage() {
               <div className="card">
                 <div className="flex items-center gap-2 mb-5">
                   <CalendarOutlined style={{ color: 'var(--color-accent)' }} />
-                  <h2 className="font-bold text-sm text-[var(--color-neutral-200)] tracking-wide uppercase"
+                  <h2 className="font-bold text-sm text-neutral-200 tracking-wide uppercase"
                     style={{ fontFamily: 'var(--font-display)' }}>Validity Period</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -177,7 +177,7 @@ export default function VerifyPage() {
                 </div>
                 {/* Progress bar */}
                 <div className="mt-5">
-                  <div className="flex justify-between text-xs text-[var(--color-neutral-500)] mb-1.5">
+                  <div className="flex justify-between text-xs text-neutral-500 mb-1.5">
                     <span>{formatDate(doc.dateIssued)}</span>
                     <span>{formatDate(doc.viewableUntil)}</span>
                   </div>
@@ -206,7 +206,7 @@ export default function VerifyPage() {
               <div className="card text-center">
                 <div className="flex items-center gap-2 justify-center mb-5">
                   <SafetyOutlined style={{ color: 'var(--color-accent)' }} />
-                  <h2 className="font-bold text-sm text-[var(--color-neutral-200)] tracking-wide uppercase"
+                  <h2 className="font-bold text-sm text-neutral-200 tracking-wide uppercase"
                     style={{ fontFamily: 'var(--font-display)' }}>Verification Seal</h2>
                 </div>
                 {/* QR placeholder */}
@@ -224,14 +224,14 @@ export default function VerifyPage() {
                     ))}
                   </div>
                 </div>
-                <p className="text-xs text-[var(--color-neutral-500)] mb-1">Scan to verify</p>
-                <code className="text-xs text-[var(--color-accent)]" style={{ letterSpacing: '0.1em' }}>{doc.authCode}</code>
+                <p className="text-xs text-neutral-500 mb-1">Scan to verify</p>
+                <code className="text-xs text-(--color-accent)" style={{ letterSpacing: '0.1em' }}>{doc.authCode}</code>
               </div>
 
               <div className="card">
                 <div className="flex items-center gap-2 mb-4">
                   <ClockCircleOutlined style={{ color: 'var(--color-accent)' }} />
-                  <h2 className="font-bold text-sm text-[var(--color-neutral-200)] tracking-wide uppercase"
+                  <h2 className="font-bold text-sm text-neutral-200 tracking-wide uppercase"
                     style={{ fontFamily: 'var(--font-display)' }}>Quick Summary</h2>
                 </div>
                 <div className="space-y-3">
@@ -242,16 +242,16 @@ export default function VerifyPage() {
                     ['Issued', formatDate(doc.dateIssued)],
                   ].map(([k, v]) => (
                     <div key={k} className="flex justify-between items-start gap-2">
-                      <span className="text-xs text-[var(--color-neutral-500)]">{k}</span>
-                      <span className="text-xs text-right text-[var(--color-neutral-200)] font-medium">{v}</span>
+                      <span className="text-xs text-neutral-500">{k}</span>
+                      <span className="text-xs text-right text-neutral-200 font-medium">{v}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="text-center p-4 rounded-xl" style={{ background: 'var(--color-surface-overlay)', border: '1px solid var(--color-border-subtle)' }}>
-                <p className="text-xs text-[var(--color-neutral-600)] leading-relaxed">
-                  DoxVerify is a document security tool. It is not liable for errors committed by the issuing institution.
+                <p className="text-xs text-neutral-600 leading-relaxed">
+                  DoxCheck is a document security tool. It is not liable for errors committed by the issuing institution.
                 </p>
               </div>
             </div>
