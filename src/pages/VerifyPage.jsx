@@ -1,12 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { Tag, Divider } from 'antd'
+import { Tag } from 'antd'
 import {
   CheckCircleOutlined, CloseCircleOutlined, WarningOutlined,
   ArrowLeftOutlined, CalendarOutlined, BankOutlined,
-  UserOutlined, FileTextOutlined, SafetyOutlined, ClockCircleOutlined
+  FileTextOutlined, SafetyOutlined, ClockCircleOutlined
 } from '@ant-design/icons'
 import { documentStore } from '@/store/documentStore'
 import { formatDate, isExpired } from '@/lib/utils'
+import { Layout } from '@/components/Layout'
 
 function StatusBadge({ doc }) {
   if (!doc) return null
@@ -47,7 +48,7 @@ function StatusBadge({ doc }) {
   )
 }
 
-function InfoRow({ icon, label, value, mono }) {
+function InfoRow({ label, value, mono }) {
   return (
     <div className="flex flex-col gap-1">
       <p className="text-xs tracking-widest uppercase" style={{ color: 'var(--color-neutral-500)', fontFamily: 'var(--font-display)' }}>
@@ -72,24 +73,16 @@ export default function VerifyPage() {
   const notFound = !doc
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--color-surface)', fontFamily: 'var(--font-body)' }}>
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-(--color-border-subtle)">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'var(--color-primary)' }}>
-            <span className="text-white font-bold text-xs" style={{ fontFamily: 'var(--font-display)' }}>DV</span>
-          </div>
-          <span className="font-bold text-neutral-100 tracking-tight" style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem' }}>
-            DoxCheck
-          </span>
-        </div>
-        <button onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-100 transition-colors">
-          <ArrowLeftOutlined /> Back to Search
-        </button>
-      </nav>
-
+    <Layout>
       <div className="max-w-4xl mx-auto px-6 py-12">
+        {/* Header Action */}
+        <div className="mb-6 fade-up">
+           <button onClick={() => navigate('/')}
+            className="flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-100 transition-colors">
+            <ArrowLeftOutlined /> Back to Search
+          </button>
+        </div>
+
         {/* Code display */}
         <div className="mb-8 fade-up">
           <p className="text-xs tracking-widest uppercase text-neutral-500 mb-1" style={{ fontFamily: 'var(--font-display)' }}>
@@ -258,6 +251,6 @@ export default function VerifyPage() {
           </div>
         )}
       </div>
-    </div>
+    </Layout>
   )
 }

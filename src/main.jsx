@@ -2,46 +2,58 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, theme as antdThemeEngine } from 'antd'
 import { router } from '@/routes'
+import { ThemeProvider, useTheme } from '@/context/ThemeContext'
 import '@/styles/globals.css'
 
 const queryClient = new QueryClient()
 
-const antdTheme = {
-  token: {
-    colorPrimary: '#3b5fd4',
-    colorSuccess: '#4ade80',
-    colorWarning: '#f59e0b',
-    colorError: '#ef4444',
-    borderRadius: 8,
-    fontFamily: "'DM Sans', sans-serif",
-    colorBgContainer: 'rgba(255,255,255,0.04)',
-    colorBgElevated: '#1a1d27',
-    colorText: '#f0f0f5',
-    colorTextSecondary: '#9090a8',
-    colorBorder: '#2e3040',
-    colorSplit: '#2e3040',
-  },
-  components: {
-    Table: {
-      headerBg: 'rgba(255,255,255,0.05)',
-      rowHoverBg: 'rgba(255,255,255,0.04)',
-      borderColor: '#2e3040',
+const App = () => {
+  const { theme } = useTheme();
+  
+  const antdTheme = {
+    algorithm: theme === 'dark' ? antdThemeEngine.darkAlgorithm : antdThemeEngine.defaultAlgorithm,
+    token: {
+      colorPrimary: '#3b5fd4',
+      colorSuccess: '#4ade80',
+      colorWarning: '#f59e0b',
+      colorError: '#ef4444',
+      borderRadius: 8,
+      fontFamily: "'DM Sans', sans-serif",
+      colorBgContainer: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#ffffff',
+      colorBgElevated: theme === 'dark' ? '#1a1d27' : '#ffffff',
+      colorText: theme === 'dark' ? '#f0f0f5' : '#1f2937',
+      colorTextSecondary: theme === 'dark' ? '#9090a8' : '#6b7280',
+      colorBorder: theme === 'dark' ? '#2e3040' : '#e5e7eb',
+      colorSplit: theme === 'dark' ? '#2e3040' : '#e5e7eb',
     },
-    Modal: {
-      contentBg: '#16192a',
-      headerBg: '#16192a',
-    },
+    components: {
+      Table: {
+        headerBg: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#f9fafb',
+        rowHoverBg: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#f3f4f6',
+        borderColor: theme === 'dark' ? '#2e3040' : '#e5e7eb',
+      },
+      Modal: {
+        contentBg: theme === 'dark' ? '#16192a' : '#ffffff',
+        headerBg: theme === 'dark' ? '#16192a' : '#ffffff',
+      },
+    }
   }
-}
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  return (
     <ConfigProvider theme={antdTheme}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>
     </ConfigProvider>
+  )
+}
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   </StrictMode>
 )

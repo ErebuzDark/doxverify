@@ -3,6 +3,39 @@
 
 @layer base {
   :root {
+    --color-primary: oklch(55% 0.18 250);
+    --color-primary-light: oklch(65% 0.18 250);
+    --color-primary-foreground: oklch(99% 0 0);
+    --color-accent: oklch(65% 0.20 195);
+    --color-accent-foreground: oklch(15% 0.05 250);
+    --color-surface: oklch(98% 0.01 250);
+    --color-surface-raised: oklch(95% 0.01 250);
+    --color-surface-overlay: oklch(92% 0.015 250);
+    --color-border: oklch(85% 0.02 250);
+    --color-border-subtle: oklch(90% 0.01 250);
+    --color-neutral-50: oklch(15% 0 0);
+    --color-neutral-100: oklch(20% 0 0);
+    --color-neutral-200: oklch(30% 0 0);
+    --color-neutral-300: oklch(45% 0 0);
+    --color-neutral-400: oklch(55% 0 0);
+    --color-neutral-500: oklch(65% 0 0);
+    --color-neutral-600: oklch(75% 0 0);
+    --color-neutral-700: oklch(85% 0.01 250);
+    --color-neutral-800: oklch(92% 0.015 250);
+    --color-neutral-900: oklch(98% 0.02 250);
+    --color-success: oklch(62% 0.20 155);
+    --color-success-dim: oklch(90% 0.08 155);
+    --color-warning: oklch(72% 0.18 75);
+    --color-warning-dim: oklch(90% 0.07 75);
+    --color-destructive: oklch(58% 0.22 27);
+    --color-destructive-dim: oklch(90% 0.08 27);
+    --radius: 0.5rem;
+    --radius-lg: 0.875rem;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  .dark {
     --color-primary: oklch(42% 0.18 250);
     --color-primary-light: oklch(55% 0.18 250);
     --color-primary-foreground: oklch(99% 0 0);
@@ -29,10 +62,6 @@
     --color-warning-dim: oklch(25% 0.07 75);
     --color-destructive: oklch(58% 0.22 27);
     --color-destructive-dim: oklch(22% 0.08 27);
-    --radius: 0.5rem;
-    --radius-lg: 0.875rem;
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
   }
 }
 
@@ -44,9 +73,11 @@
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     margin: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
+    color: var(--color-neutral-100);
   }
   #root { width: 100%; min-height: 100vh; }
 }
@@ -63,6 +94,7 @@
   .card {
     @apply bg-(--color-surface-raised) border border-(--color-border)
            rounded-lg p-6;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
   .glass {
     background: rgba(255,255,255,0.04);
@@ -108,7 +140,7 @@
   color: var(--color-neutral-100) !important;
   font-family: var(--font-body) !important;
 }
-.ant-input::placeholder { color: var(--color-neutral-500) !important; }
+.ant-input::placeholder { color: var(--color-neutral-400) !important; }
 .ant-input-affix-wrapper:hover,
 .ant-input-affix-wrapper:focus-within {
   border-color: var(--color-accent) !important;

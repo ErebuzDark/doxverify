@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { Table, Button, Tag, Modal, Form, Input, Select, DatePicker, message, Popconfirm, Space } from 'antd'
 import {
   PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined,
-  ArrowLeftOutlined, SearchOutlined, FileProtectOutlined
+  SearchOutlined, FileProtectOutlined
 } from '@ant-design/icons'
 import { documentStore } from '@/store/documentStore'
 import { generateCode, formatDate, isExpired } from '@/lib/utils'
 import dayjs from 'dayjs'
+import { Layout } from '@/components/Layout'
 
 const DOC_TYPES = ['Diploma', 'Certificate', 'Transcript', 'Employment Record', 'License', 'Clearance', 'Other']
 const ORG_TYPES = ['Academic Institution', 'Corporate', 'Government', 'NGO', 'Healthcare', 'Other']
@@ -126,31 +127,7 @@ export default function AdminPage() {
   ]
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--color-surface)', fontFamily: 'var(--font-body)' }}>
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-(--color-border-subtle)">
-        <div className="flex items-center gap-4">
-          <button onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-100 transition-colors">
-            <ArrowLeftOutlined />
-          </button>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'var(--color-primary)' }}>
-              <span className="text-white font-bold text-xs" style={{ fontFamily: 'var(--font-display)' }}>DV</span>
-            </div>
-            <div>
-              <span className="font-bold text-neutral-100 tracking-tight" style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem' }}>
-                DoxCheck
-              </span>
-              <span className="ml-3 text-xs px-2 py-0.5 rounded"
-                style={{ background: 'var(--color-surface-overlay)', color: 'var(--color-neutral-400)', fontFamily: 'var(--font-display)', letterSpacing: '0.08em' }}>
-                ADMIN
-              </span>
-            </div>
-          </div>
-        </div>
-      </nav>
-
+    <Layout>
       <div className="max-w-7xl mx-auto px-6 py-10">
         {/* Header */}
         <div className="flex items-start justify-between mb-8 fade-up">
@@ -264,6 +241,6 @@ export default function AdminPage() {
           </div>
         </Form>
       </Modal>
-    </div>
+    </Layout>
   )
 }
