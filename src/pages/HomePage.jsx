@@ -54,11 +54,11 @@ export default function HomePage() {
           style={{ background: 'radial-gradient(ellipse, var(--color-primary-light) 0%, transparent 70%)', filter: 'blur(60px)' }} />
 
         <div className="relative z-10 max-w-3xl mx-auto text-center">
-          <h1 className="fade-up-2 text-6xl md:text-7xl font-extrabold leading-tight mb-6"
+          <h1 className="fade-up-2 text-2xl md:text-4xl font-extrabold leading-tight mb-6"
             style={{ fontFamily: 'var(--font-display)' }}>
-            <span className="shimmer-text">DOXCHECK.</span>
+            <span className="text-5xl! md:text-7xl! shimmer-text">DOXCHECK.</span>
             <br />
-            <span className="text-neutral-100">Trust. Confirm.</span>
+            <span className="text-neutral-100">Secure, Simple and Accurate.</span>
           </h1>
 
           <p className="fade-up-3 text-lg text-neutral-400 mb-14 max-w-xl mx-auto leading-relaxed">

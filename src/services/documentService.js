@@ -8,7 +8,11 @@ export const documentService = {
   },
 
   getByCode: async (code) => {
-    const { data } = await api.get(`/documents/verify/${code}`);
+    const inputData = {
+      code: code,
+    }
+    const { data } = await api.post('/CodeToImage', inputData);
+    console.log(data)
     return data;
   },
 
