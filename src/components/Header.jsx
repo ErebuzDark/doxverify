@@ -17,19 +17,20 @@ export const Header = () => {
           DoxCheck
         </span>
       </div>
-      
+
       <div className="flex items-center gap-6">
-        <button
+        {/* hide muna natin since wala naman talagang ganitong feature */}
+        {/* <button
           onClick={() => navigate('/admin')}
           className="text-sm text-neutral-400 hover:text-neutral-100 transition-colors"
           style={{ fontFamily: 'var(--font-body)' }}
         >
           Admin Portal
-        </button>
-        
+        </button> */}
+
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-lg border border-(--color-border-subtle) hover:border-(--color-border) transition-all text-neutral-400 hover:text-neutral-100"
+          className="p-2 px-3 rounded-full border border-(--color-border-subtle) hover:border-(--color-border) transition-all text-neutral-400 hover:text-neutral-100"
           title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
           {theme === 'dark' ? <SunOutlined /> : <MoonOutlined />}
