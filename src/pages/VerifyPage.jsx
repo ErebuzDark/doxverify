@@ -3,13 +3,56 @@ import {
   CheckCircleOutlined, CloseCircleOutlined, WarningOutlined,
   ArrowLeftOutlined, CalendarOutlined, BankOutlined,
   FileTextOutlined, SafetyOutlined, ClockCircleOutlined,
-  PictureOutlined, ZoomInOutlined
+  PictureOutlined, ZoomInOutlined, FilePdfOutlined
 } from '@ant-design/icons'
 import { Tag, Image } from 'antd'
 import { useDocument } from '@/hooks/useDocuments'
 import { formatDate, isExpired } from '@/lib/utils'
 import { Layout } from '@/components/Layout'
 import { Spin } from 'antd'
+
+function FilePreview({ file, index }) {
+  const url = file.image_link_url
+  const isPDF = url?.toLowerCase().split('?')[0].endsWith('.pdf') || url?.toLowerCase().includes('.pdf')
+
+  if (isPDF) {
+    return (
+      <div className="group relative rounded-xl border border-(--color-border-subtle) bg-black/20 aspect-3/4 flex flex-col items-center justify-center gap-3 hover:bg-black/30 transition-all cursor-pointer overflow-hidden p-4"
+        onClick={() => window.open(url, '_blank')}>
+        <div className="w-12 h-12 rounded-xl bg-(--color-destructive-dim) flex items-center justify-center text-(--color-destructive) group-hover:scale-110 transition-transform">
+          <FilePdfOutlined style={{ fontSize: 24 }} />
+        </div>
+        <div className="text-center">
+          <p className="text-[10px] font-bold text-neutral-200 uppercase tracking-wider mb-0.5">Page {index + 1}</p>
+          <p className="text-[8px] text-neutral-500 uppercase tracking-widest font-bold">PDF Document</p>
+        </div>
+        {/* Decorative background icon */}
+        <FilePdfOutlined className="absolute -bottom-4 -right-4 text-6xl text-white/5 -rotate-12 group-hover:rotate-0 transition-all duration-500" />
+      </div>
+    )
+  }
+
+  return (
+    <div className="relative group rounded-xl overflow-hidden border border-(--color-border-subtle) bg-black/20 aspect-3/4 flex items-center justify-center">
+      <Image
+        src={url}
+        alt={`Document page ${index + 1}`}
+        className="w-full h-full object-contain"
+        preview={{
+          mask: (
+            <div className="flex flex-col items-center gap-1">
+              <ZoomInOutlined className="text-xl" />
+              <span className="text-[8px] font-bold uppercase tracking-widest">Page {index + 1}</span>
+            </div>
+          )
+        }}
+      />
+      <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded text-[8px] text-white font-bold uppercase tracking-wider border border-white/10 pointer-events-none">
+        P{index + 1}
+      </div>
+    </div>
+  )
+}
 
 function StatusBadge({ doc }) {
   if (!doc) return null
@@ -248,30 +291,6 @@ export default function VerifyPage() {
               </div>
 
               <div className='flex flex-row gap-4 '>
-                <div className="card text-center flex-1">
-                  <div className="flex items-center gap-2 justify-center mb-5">
-                    <SafetyOutlined style={{ color: 'var(--color-accent)' }} />
-                    <h2 className="font-bold text-sm text-neutral-200 tracking-wide uppercase"
-                      style={{ fontFamily: 'var(--font-display)' }}>Verification Seal</h2>
-                  </div>
-                  {/* QR placeholder */}
-                  <div className="mx-auto w-32 h-32 rounded-xl flex items-center justify-center mb-4 relative overflow-hidden"
-                    style={{ background: 'var(--color-surface-overlay)', border: '1px solid var(--color-border)' }}>
-                    <div className="grid grid-cols-5 gap-0.5 p-3 w-full h-full">
-                      {Array.from({ length: 25 }).map((_, i) => (
-                        <div key={i} className="rounded-sm"
-                          style={{
-                            background: Math.random() > 0.5 || i < 3 || i > 22
-                              ? 'var(--color-neutral-200)'
-                              : 'transparent',
-                            aspectRatio: '1'
-                          }} />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-xs text-neutral-500 mb-1">Scan to verify</p>
-                  <code className="text-xs text-(--color-accent)" style={{ letterSpacing: '0.1em' }}>{master.authentication_code || master.authCode || code}</code>
-                </div>
 
                 <div className="card flex-1">
                   <div className="flex items-center gap-2 mb-4">
@@ -301,85 +320,36 @@ export default function VerifyPage() {
             {/* Right: QR / Summary */}
             <div className="space-y-5 fade-up-3">
 
-              {/* Document Image Preview */}
+              {/* Document Files Preview */}
               <div className="card overflow-hidden p-0">
                 <div className="p-5 border-b border-(--color-border-subtle) flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <PictureOutlined style={{ color: 'var(--color-accent)' }} />
                     <h2 className="font-bold text-sm text-neutral-200 tracking-wide uppercase"
-                      style={{ fontFamily: 'var(--font-display)' }}>Document Images</h2>
+                      style={{ fontFamily: 'var(--font-display)' }}>Official Documents</h2>
                   </div>
                   <Tag color="blue" className="m-0 text-[10px] uppercase font-bold">
-                    {images?.length > 1 ? `${images.length} Pages` : 'Official Scan'}
+                    {images?.length > 1 ? `${images.length} Files` : 'Verified Copy'}
                   </Tag>
                 </div>
 
                 <div className="p-4 bg-black/10">
                   {images && images.length > 0 ? (
                     <Image.PreviewGroup>
-                      <div className="flex flex-col gap-4">
-                        {/* Main Preview (First Image) */}
-                        <div className="relative group rounded-xl overflow-hidden border border-(--color-border-subtle) bg-black/20 aspect-3/4 flex items-center justify-center">
-                          <Image
-                            src={images[0].image_link_url}
-                            alt="Document page 1"
-                            className="w-full h-full object-contain"
-                            preview={{
-                              mask: (
-                                <div className="flex flex-col items-center gap-2">
-                                  <ZoomInOutlined className="text-2xl" />
-                                  <span className="text-xs font-bold uppercase tracking-widest">View Full Page 1</span>
-                                </div>
-                              )
-                            }}
-                          />
-                          <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[10px] text-white font-bold uppercase tracking-wider border border-white/10">
-                            Page 1
-                          </div>
-                        </div>
-
-                        {/* Thumbnails if multiple images */}
-                        {images.length > 1 && (
-                          <div className="grid grid-cols-4 gap-2 overflow-x-auto pb-2 custom-scrollbar">
-                            {images.slice(1).map((img, idx) => (
-                              <div key={idx} className="relative group rounded-lg overflow-hidden border border-(--color-border-subtle) bg-black/20 aspect-3/4 flex items-center justify-center">
-                                <Image
-                                  src={img.image_link_url}
-                                  alt={`Document page ${idx + 2}`}
-                                  className="w-full h-full object-contain"
-                                  preview={{
-                                    mask: <ZoomInOutlined className="text-lg" />
-                                  }}
-                                />
-                                <div className="absolute bottom-1 left-1 bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded text-[8px] text-white font-bold border border-white/5">
-                                  P{idx + 2}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                      <div className="grid grid-cols-2 gap-4">
+                        {images.map((file, idx) => (
+                          <FilePreview key={idx} file={file} index={idx} />
+                        ))}
                       </div>
                     </Image.PreviewGroup>
                   ) : (master.image_link_url || doc.image_link_url) ? (
-                    <div className="relative group rounded-xl overflow-hidden border border-(--color-border-subtle) bg-black/20">
-                      <Image
-                        src={master.image_link_url || doc.image_link_url}
-                        alt="Document scan"
-                        className="w-full h-auto"
-                        preview={{
-                          mask: (
-                            <div className="flex flex-col items-center gap-2">
-                              <ZoomInOutlined className="text-2xl" />
-                              <span className="text-xs font-bold uppercase tracking-widest">View Full Document</span>
-                            </div>
-                          )
-                        }}
-                      />
+                    <div className="max-w-xs mx-auto">
+                      <FilePreview file={{ image_link_url: master.image_link_url || doc.image_link_url }} index={0} />
                     </div>
                   ) : (
                     <div className="text-center py-16">
                       <PictureOutlined className="text-4xl text-neutral-700 mb-2" />
-                      <p className="text-xs text-neutral-500">No image scan available</p>
+                      <p className="text-xs text-neutral-500">No document preview available</p>
                     </div>
                   )}
                 </div>
