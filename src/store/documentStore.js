@@ -18,6 +18,7 @@ const initialDocuments = [
     organization: 'University of the Philippines',
     orgType: 'Academic Institution',
     createdAt: '2024-01-10',
+    imageUrl: 'https://images.unsplash.com/photo-1621508658429-074e9545e12f?auto=format&fit=crop&q=80&w=800',
   },
   {
     id: '2',
@@ -33,6 +34,7 @@ const initialDocuments = [
     organization: 'Acme Corporation',
     orgType: 'Corporate',
     createdAt: '2024-01-15',
+    imageUrl: 'https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&q=80&w=800',
   },
   {
     id: '3',
@@ -48,6 +50,7 @@ const initialDocuments = [
     organization: 'De La Salle University',
     orgType: 'Academic Institution',
     createdAt: '2022-10-20',
+    imageUrl: 'https://images.unsplash.com/photo-1544652478-6653e09f18a2?auto=format&fit=crop&q=80&w=800',
   },
 ]
 

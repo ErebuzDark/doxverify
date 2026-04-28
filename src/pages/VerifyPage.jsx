@@ -1,13 +1,15 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { Tag } from 'antd'
 import {
   CheckCircleOutlined, CloseCircleOutlined, WarningOutlined,
   ArrowLeftOutlined, CalendarOutlined, BankOutlined,
-  FileTextOutlined, SafetyOutlined, ClockCircleOutlined
+  FileTextOutlined, SafetyOutlined, ClockCircleOutlined,
+  PictureOutlined, ZoomInOutlined
 } from '@ant-design/icons'
-import { documentStore } from '@/store/documentStore'
+import { Tag, Image } from 'antd'
+import { useDocument } from '@/hooks/useDocuments'
 import { formatDate, isExpired } from '@/lib/utils'
 import { Layout } from '@/components/Layout'
+import { Spin } from 'antd'
 
 function StatusBadge({ doc }) {
   if (!doc) return null
@@ -68,9 +70,9 @@ function InfoRow({ label, value, mono }) {
 export default function VerifyPage() {
   const { code } = useParams()
   const navigate = useNavigate()
-  const doc = documentStore.getByCode(code)
+  const { data: doc, isLoading, isError } = useDocument(code)
 
-  const notFound = !doc
+  const notFound = !doc && !isLoading
 
   return (
     <Layout>
@@ -97,7 +99,29 @@ export default function VerifyPage() {
           </div>
         </div>
 
-        {notFound ? (
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-32">
+            <Spin size="large" />
+            <p className="mt-4 text-neutral-500 font-medium">Verifying code...</p>
+          </div>
+        ) : isError ? (
+           <div className="fade-up-2 flex flex-col items-center justify-center py-24 text-center">
+            <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6"
+              style={{ background: 'var(--color-surface-overlay)', border: '1px solid var(--color-border)' }}>
+              <WarningOutlined style={{ fontSize: 36, color: 'var(--color-warning)' }} />
+            </div>
+            <h2 className="text-2xl font-bold text-neutral-100 mb-3" style={{ fontFamily: 'var(--font-display)' }}>
+              Verification Error
+            </h2>
+            <p className="text-neutral-500 max-w-md text-sm leading-relaxed">
+              We encountered an issue while trying to verify this code. Please check your connection or try again later.
+            </p>
+            <button onClick={() => window.location.reload()}
+              className="mt-8 btn-primary">
+              Retry Verification
+            </button>
+          </div>
+        ) : notFound ? (
           /* Not Found */
           <div className="fade-up-2 flex flex-col items-center justify-center py-24 text-center">
             <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6"
@@ -239,6 +263,38 @@ export default function VerifyPage() {
                       <span className="text-xs text-right text-neutral-200 font-medium">{v}</span>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* Document Image Preview */}
+              <div className="card overflow-hidden p-0">
+                <div className="p-5 border-b border-(--color-border-subtle) flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <PictureOutlined style={{ color: 'var(--color-accent)' }} />
+                    <h2 className="font-bold text-sm text-neutral-200 tracking-wide uppercase"
+                      style={{ fontFamily: 'var(--font-display)' }}>Document Image</h2>
+                  </div>
+                  <Tag color="blue" className="m-0 text-[10px] uppercase font-bold">Official Scan</Tag>
+                </div>
+                <div className="p-2 bg-black/20 flex items-center justify-center min-h-[200px] group relative">
+                  {doc.imageUrl ? (
+                    <Image
+                      src={doc.imageUrl}
+                      alt="Document scan"
+                      className="w-full h-auto rounded-lg shadow-2xl"
+                      preview={{
+                        mask: <div className="flex flex-col items-center gap-2"><ZoomInOutlined className="text-2xl" /><span>View Full Document</span></div>
+                      }}
+                    />
+                  ) : (
+                    <div className="text-center py-12">
+                      <PictureOutlined className="text-4xl text-neutral-700 mb-2" />
+                      <p className="text-xs text-neutral-500">No image scan available</p>
+                    </div>
+                  )}
+                </div>
+                <div className="p-3 bg-(--color-surface-overlay) text-center">
+                  <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold">Secure Verification Preview</p>
                 </div>
               </div>
 

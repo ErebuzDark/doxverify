@@ -1,14 +1,20 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Table, Button, Tag, Modal, Form, Input, Select, DatePicker, message, Popconfirm, Space } from 'antd'
 import {
   PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined,
-  SearchOutlined, FileProtectOutlined
+  SearchOutlined, FileProtectOutlined, PictureOutlined
 } from '@ant-design/icons'
-import { documentStore } from '@/store/documentStore'
+import { Table, Button, Tag, Modal, Form, Input, Select, DatePicker, Popconfirm, Space, Image, App } from 'antd'
+import {
+  useDocuments,
+  useCreateDocument,
+  useUpdateDocument,
+  useDeleteDocument
+} from '@/hooks/useDocuments'
 import { generateCode, formatDate, isExpired } from '@/lib/utils'
 import dayjs from 'dayjs'
 import { Layout } from '@/components/Layout'
+import { Spin, Empty } from 'antd'
 
 const DOC_TYPES = ['Diploma', 'Certificate', 'Transcript', 'Employment Record', 'License', 'Clearance', 'Other']
 const ORG_TYPES = ['Academic Institution', 'Corporate', 'Government', 'NGO', 'Healthcare', 'Other']
@@ -27,20 +33,23 @@ function StatusTag({ doc }) {
 
 export default function AdminPage() {
   const navigate = useNavigate()
-  const [docs, setDocs] = useState(() => documentStore.getAll())
+  const { message } = App.useApp()
+  const { data: docs = [], isLoading, isError } = useDocuments()
+  const createMutation = useCreateDocument()
+  const updateMutation = useUpdateDocument()
+  const deleteMutation = useDeleteDocument()
+
   const [search, setSearch] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
   const [editingDoc, setEditingDoc] = useState(null)
   const [form] = Form.useForm()
 
   const filtered = docs.filter(d =>
-    d.authCode.toLowerCase().includes(search.toLowerCase()) ||
-    d.issuedTo.toLowerCase().includes(search.toLowerCase()) ||
-    d.issuedBy.toLowerCase().includes(search.toLowerCase()) ||
-    d.documentType.toLowerCase().includes(search.toLowerCase())
+    d.authCode?.toLowerCase().includes(search.toLowerCase()) ||
+    d.issuedTo?.toLowerCase().includes(search.toLowerCase()) ||
+    d.issuedBy?.toLowerCase().includes(search.toLowerCase()) ||
+    d.documentType?.toLowerCase().includes(search.toLowerCase())
   )
-
-  const refresh = () => setDocs(documentStore.getAll())
 
   const openAdd = () => {
     setEditingDoc(null)
@@ -60,9 +69,10 @@ export default function AdminPage() {
   }
 
   const handleDelete = (id) => {
-    documentStore.delete(id)
-    refresh()
-    message.success('Document deleted.')
+    deleteMutation.mutate(id, {
+      onSuccess: () => message.success('Document deleted.'),
+      onError: (err) => message.error(err.response?.data?.message || 'Failed to delete document')
+    })
   }
 
   const handleSave = async () => {
@@ -74,14 +84,22 @@ export default function AdminPage() {
         viewableUntil: values.viewableUntil?.format('YYYY-MM-DD'),
       }
       if (editingDoc) {
-        documentStore.update(editingDoc.id, payload)
-        message.success('Document updated.')
+        updateMutation.mutate({ id: editingDoc.id, data: payload }, {
+          onSuccess: () => {
+            message.success('Document updated.')
+            setModalOpen(false)
+          },
+          onError: (err) => message.error(err.response?.data?.message || 'Failed to update document')
+        })
       } else {
-        documentStore.add(payload)
-        message.success('Document added.')
+        createMutation.mutate(payload, {
+          onSuccess: () => {
+            message.success('Document added.')
+            setModalOpen(false)
+          },
+          onError: (err) => message.error(err.response?.data?.message || 'Failed to add document')
+        })
       }
-      refresh()
-      setModalOpen(false)
     } catch (_) { }
   }
 
@@ -102,6 +120,24 @@ export default function AdminPage() {
     {
       title: 'Viewable Until', dataIndex: 'viewableUntil', key: 'viewableUntil',
       render: v => <span style={{ color: isExpired(v) ? 'var(--color-destructive)' : 'var(--color-neutral-400)', fontSize: '12px' }}>{formatDate(v)}</span>
+    },
+    {
+      title: 'Preview',
+      dataIndex: 'imageUrl',
+      key: 'imageUrl',
+      render: v => v ? (
+        <Image
+          src={v}
+          width={40}
+          height={40}
+          className="rounded-lg object-cover border border-(--color-border-subtle)"
+          preview={{ mask: <EyeOutlined /> }}
+        />
+      ) : (
+        <div className="w-10 h-10 rounded-lg bg-(--color-surface-overlay) border border-(--color-border-subtle) flex items-center justify-center">
+          <PictureOutlined className="text-neutral-600 text-xs" />
+        </div>
+      )
     },
     {
       title: 'Status', key: 'status',
@@ -176,14 +212,21 @@ export default function AdminPage() {
             />
           </div>
           <div className='p-5'>
-            <Table
-              dataSource={filtered}
-              columns={columns}
-              rowKey="id"
-              pagination={{ pageSize: 10, size: 'small' }}
-              size="middle"
-              scroll={{ x: true }}
-            />
+            {isLoading ? (
+              <div className="py-20 text-center"><Spin size="large" /></div>
+            ) : isError ? (
+              <div className="py-20 text-center text-destructive">Failed to load documents. Please check your connection.</div>
+            ) : (
+              <Table
+                dataSource={filtered}
+                columns={columns}
+                rowKey="id"
+                pagination={{ pageSize: 10, size: 'small' }}
+                size="middle"
+                scroll={{ x: true }}
+                locale={{ emptyText: <Empty description="No documents found" /> }}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -194,6 +237,7 @@ export default function AdminPage() {
         open={modalOpen}
         onCancel={() => setModalOpen(false)}
         onOk={handleSave}
+        confirmLoading={createMutation.isPending || updateMutation.isPending}
         okText={editingDoc ? 'Update' : 'Add Document'}
         okButtonProps={{ style: { background: 'var(--color-primary)', borderColor: 'var(--color-primary)', fontFamily: 'var(--font-display)' } }}
         cancelButtonProps={{ style: { color: 'var(--color-neutral-400)', borderColor: 'var(--color-border)', background: 'var(--color-surface-overlay)' } }}
@@ -234,6 +278,9 @@ export default function AdminPage() {
             </Form.Item>
             <Form.Item label="Viewable Until" name="viewableUntil" rules={[{ required: true }]}>
               <DatePicker format="YYYY-MM-DD" />
+            </Form.Item>
+            <Form.Item label="Document Image URL" name="imageUrl" style={{ gridColumn: '1 / -1' }} help="Provide a URL to the scanned document image">
+              <Input prefix={<PictureOutlined className="text-neutral-500" />} placeholder="https://example.com/document-image.jpg" />
             </Form.Item>
             <Form.Item label="Remarks" name="remarks" style={{ gridColumn: '1 / -1' }}>
               <Input.TextArea rows={2} />

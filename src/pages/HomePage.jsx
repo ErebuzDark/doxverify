@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Input, message } from 'antd'
+import { Input, App } from 'antd'
 import { SearchOutlined, SafetyCertificateOutlined, ThunderboltOutlined, EyeOutlined } from '@ant-design/icons'
 import { Layout } from '@/components/Layout'
 
@@ -25,6 +25,7 @@ const FEATURES = [
 export default function HomePage() {
   const [code, setCode] = useState('')
   const navigate = useNavigate()
+  const { message } = App.useApp()
 
   const handleVerify = () => {
     const trimmed = code.trim().toUpperCase()
