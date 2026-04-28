@@ -319,7 +319,7 @@ export default function VerifyPage() {
                     <Image.PreviewGroup>
                       <div className="flex flex-col gap-4">
                         {/* Main Preview (First Image) */}
-                        <div className="relative group rounded-xl overflow-hidden border border-(--color-border-subtle) bg-black/20 aspect-[3/4] flex items-center justify-center">
+                        <div className="relative group rounded-xl overflow-hidden border border-(--color-border-subtle) bg-black/20 aspect-3/4 flex items-center justify-center">
                           <Image
                             src={images[0].image_link_url}
                             alt="Document page 1"
@@ -342,7 +342,7 @@ export default function VerifyPage() {
                         {images.length > 1 && (
                           <div className="grid grid-cols-4 gap-2 overflow-x-auto pb-2 custom-scrollbar">
                             {images.slice(1).map((img, idx) => (
-                              <div key={idx} className="relative group rounded-lg overflow-hidden border border-(--color-border-subtle) bg-black/20 aspect-[3/4] flex items-center justify-center">
+                              <div key={idx} className="relative group rounded-lg overflow-hidden border border-(--color-border-subtle) bg-black/20 aspect-3/4 flex items-center justify-center">
                                 <Image
                                   src={img.image_link_url}
                                   alt={`Document page ${idx + 2}`}

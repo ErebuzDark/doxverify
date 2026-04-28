@@ -103,7 +103,7 @@ export default function HomePage() {
                 className="text-(--color-accent) underline underline-offset-2 cursor-pointer">DIPLOMA1</button>
               {' · '}
               <button onClick={() => { setCode('CERT-2024A'); setTimeout(() => navigate('/verify/CERT-2024A'), 100) }}
-                className="text-(--color-accent) underline underline-offset-2 cursor-pointer">CERT-2024A</button>
+                className="text-(--color-accent) underline underline-offset-2 cursor-pointer">CONTRACT</button>
             </p>
           </div>
         </div>
