@@ -8,7 +8,7 @@ import {
   PictureOutlined, ZoomInOutlined, FilePdfOutlined,
   LockOutlined, HistoryOutlined, CrownOutlined, CreditCardOutlined,
 } from '@ant-design/icons'
-import { Tag, Image, Modal } from 'antd'
+import { Tag, Image, Modal, message } from 'antd'
 import { useDocument } from '@/hooks/useDocuments'
 import { formatDate, isExpired } from '@/lib/utils'
 import { Layout } from '@/components/Layout'
@@ -151,7 +151,7 @@ export default function VerifyPage() {
       // Disable Ctrl+P / Cmd+P (Print) and Ctrl+S / Cmd+S (Save)
       if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's')) {
         e.preventDefault()
-        alert('Downloading or printing is disabled for document security.')
+        message.info('Downloading or printing is disabled for document security.')
       }
     }
 
@@ -194,7 +194,7 @@ export default function VerifyPage() {
         open={expired && !isLoading && !!doc}
         footer={null}
         closable={false}
-        maskClosable={false}
+        mask={{ closable: false }}
         centered
         width={700}
         styles={{
@@ -231,9 +231,9 @@ export default function VerifyPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { title: 'Standard', duration: '1 Year', price: '$19.99', icon: <HistoryOutlined />, recommended: false },
-              { title: 'Preferred', duration: '5 Years', price: '$79.99', icon: <CrownOutlined />, recommended: true },
-              { title: 'Ultimate', duration: 'Lifetime', price: '$149.99', icon: <CreditCardOutlined />, recommended: false },
+              { title: 'Standard', duration: '1 Year', price: '$2.00', icon: <HistoryOutlined />, recommended: false },
+              { title: 'Preferred', duration: '5 Years', price: '$5.00  ', icon: <CrownOutlined />, recommended: true },
+              { title: 'Ultimate', duration: 'Lifetime', price: '$', icon: <CreditCardOutlined />, recommended: false },
             ].map((plan, i) => (
               <div key={i}
                 className={`relative p-6 rounded-2xl border transition-all cursor-pointer group shadow-sm hover:shadow-md ${plan.recommended

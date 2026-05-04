@@ -79,13 +79,15 @@ export default function HomePage() {
                 prefix={<SearchOutlined style={{ color: 'var(--color-neutral-500)' }} />}
                 suffix={
                   <button onClick={handleVerify}
-                    className="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200"
+                    disabled={!code}
+                    className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200 ${!code ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                     style={{
-                      background: 'var(--color-primary)',
-                      color: 'var(--color-primary-foreground)',
+                      background: !code ? 'var(--color-neutral-600)' : 'var(--color-primary)',
+                      color: !code ? 'var(--color-neutral-400)' : 'var(--color-primary-foreground)',
                       fontFamily: 'var(--font-display)',
                       letterSpacing: '0.04em'
-                    }}>
+                    }}
+                  >
                     Verify
                   </button>
                 }
@@ -102,7 +104,7 @@ export default function HomePage() {
               Try: <button onClick={() => { setCode('DIPLOMA1'); setTimeout(handleVerify, 100) }}
                 className="text-(--color-accent) underline underline-offset-2 cursor-pointer">DIPLOMA1</button>
               {' · '}
-              <button onClick={() => { setCode('CERT-2024A'); setTimeout(() => navigate('/verify/CERT-2024A'), 100) }}
+              <button onClick={() => { setCode('CONTRACT'); setTimeout(() => navigate('/verify/CONTRACT'), 100) }}
                 className="text-(--color-accent) underline underline-offset-2 cursor-pointer">CONTRACT</button>
             </p>
           </div>
